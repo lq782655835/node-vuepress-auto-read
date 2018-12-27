@@ -8,7 +8,11 @@
   },
   "scripts": {
     "github": "sh deploy.sh",
+    "dev": "./index.js",
     "test": "mocha --watch"
+  },
+  "folderTitleMap": {
+    "folder1": "团队规范"
   },
   "repository": {
     "type": "git",
