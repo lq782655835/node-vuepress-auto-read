@@ -1,30 +1,24 @@
 #!/usr/bin/env node
 
-const auto = require('./auto-read')
 const chalk = require('chalk')
-const fs = require('fs')
+const fs = require('fs-extra')
+const yargs = require('yargs')
+const auto = require('./auto-read')
 
-const args = require('yargs')
+const args = yargs
 .usage('Usage: $0 --config=config --destpath=destpath')
 .describe('config', "config file path")
 .default('config', './package.json')
-.describe('destpath', "vuepress dest config")
-.default('destpath', './docs/.vuepress/config.js')
+.describe('destpath', "vuepress dest docs path")
+.default('destpath', './docs')
 .help('help')
 .alias('h', 'help').argv
 
-let configFilePath = args.config
-let config = {}
-try {
-    let configTxt = fs.readFileSync(configFilePath, 'utf-8')
-    config = JSON.parse(configTxt)
-} catch {
-    console.log(chalk.yellow('you need config folderTitleMap'))
-}
 // auto run
-;(function() {
+;(async function() {
     try {
-        auto({...args, ...config})
+        let config = await fs.readJson(args.config)
+        await auto({...args, ...config})
     } catch (err) {
         console.log(chalk.red(err))
     }

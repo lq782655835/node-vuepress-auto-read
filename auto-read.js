@@ -1,9 +1,8 @@
-const fs = require('fs')
+const fs = require('fs-extra')
 const { join } = require('path')
-const chalk = require('chalk')
 
-let getConfigByDir = ({folderTitleMap={}}) => {
-    let getSideBar = findSync('./docs', folderTitleMap)
+let getConfigByDir = ({folderTitleMap, destpath}) => {
+    let getSideBar = findSync(destpath, folderTitleMap)
     // order array
     let resultOrderSideBar = []
     Object.keys(folderTitleMap).forEach(key =>
@@ -46,27 +45,17 @@ let findSync = (startPath, titleMap) => {
     return result
 }
 
-module.exports = function(options) {
+module.exports = async options => {
     let { destpath } = options
+    let vuepressConfigPath = destpath + '/.vuepress/config.js'
+    let vuepressConfig = await fs.readFile(vuepressConfigPath, 'utf-8')
+
+    // override sidebar
     let jsPrefix = 'module.exports = '
-    fs.readFile(destpath, 'utf8', (err, data) => {
-        if (err) {
-            console.error(err)
-            return
-        }
+    let jsonStr = vuepressConfig.replace(jsPrefix, '')
+    let jsonData = eval(`(${jsonStr})`)
+    jsonData.themeConfig.sidebar = getConfigByDir(options)
+    let overrideStr = jsPrefix + JSON.stringify(jsonData)
 
-        // override sidebar
-        let jsonStr = data.replace('module.exports = ', '')
-        let jsonData = eval(`(${jsonStr})`)
-        jsonData.themeConfig.sidebar = getConfigByDir(options)
-        let overrideStr = jsPrefix + JSON.stringify(jsonData)
-
-        fs.writeFile(destpath, overrideStr, 'utf8', (err, data) => {
-            if (err){
-                return console.log(chalk.red(err))
-            }
-
-            console.log(chalk.green('succeed'))
-        })
-    })
+    await fs.outputFile(vuepressConfigPath, overrideStr)
 }
