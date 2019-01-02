@@ -26,6 +26,6 @@ Usage: index.js --config=config --destpath=destpath
 Options:
   --version   Show version number                                      [boolean]
   --config    config file path           [default: "./package.json"]
-  --destpath  vuepress dest config       [default: "./docs/.vuepress/config.js"]
+  --destpath  vuepress dest folder       [default: "./docs"]
   -h, --help  Show help                                                [boolean]
 ```
