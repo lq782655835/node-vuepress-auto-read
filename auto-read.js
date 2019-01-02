@@ -4,11 +4,7 @@ const { join } = require('path')
 let getConfigByDir = ({folderTitleMap, destpath}) => {
     let getSideBar = findSync(destpath, folderTitleMap)
     // order array
-    let resultOrderSideBar = []
-    Object.keys(folderTitleMap).forEach(key =>
-        resultOrderSideBar.push(getSideBar.find(item => item.key === key))
-    )
-    return resultOrderSideBar
+    return Object.keys(folderTitleMap).reduce((pre, cur) => [ ...pre, getSideBar.find(item => item.key === cur) ], [])
 }
 
 let findSync = (startPath, titleMap) => {

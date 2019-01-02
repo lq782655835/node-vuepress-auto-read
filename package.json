@@ -1,6 +1,6 @@
 {
   "name": "node-vuepress-auto-read",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "auto create config for vuepress by files",
   "main": "index.js",
   "bin": {

@@ -5,7 +5,7 @@ describe('test/index.test.js', function() {
     it('这是一个测试文件', function() {
         let params = {
             config: './package.json',
-            destpath: './docs/.vuepress/config.js'
+            destpath: './docs'
         }
         auto(params)
         expect(1).to.equal(1)
