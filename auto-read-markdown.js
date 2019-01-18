@@ -19,8 +19,7 @@ let readMarkdown = (mapArray, { destpath, blogUrl }) => {
             resultMd.push(`* [${title}](${url})`)
         })
 
-        increse++
-        if (mapArray.length - 1 === increse) {
+        if (mapArray.length === ++increse) {
             console.log(resultMd)
             let resultStr = resultMd.join('\n')
             await fs.outputFile('./README.md', resultStr)
