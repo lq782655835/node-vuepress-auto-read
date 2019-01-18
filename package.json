@@ -1,6 +1,6 @@
 {
   "name": "node-vuepress-auto-read",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "auto create config for vuepress by files",
   "main": "index.js",
   "bin": {
@@ -12,8 +12,13 @@
     "test": "mocha"
   },
   "folderTitleMap": {
-    "folder1": "团队规范"
-  },
+    "team-standard": "团队规范",
+    "js": "前端总结",
+    "node": "NodeJS",
+    "think": "思考与总结",
+    "react-native": "ReacNative",
+    "tools": "效率工具"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lq782655835/node-vuepress-auto-read.git"
