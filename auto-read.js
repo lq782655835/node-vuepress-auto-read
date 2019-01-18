@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const { join } = require('path')
+const readMarkdown = require('./auto-read-markdown')
 
 let getConfigByDir = ({folderTitleMap, destpath}) => {
     let getSideBar = findSync(destpath, folderTitleMap)
@@ -31,9 +32,9 @@ let findSync = (startPath, titleMap) => {
 
             if (isValidFile) {
                 let pathArray = fPath.split('/')
-                let key = pathArray.slice(-2, -1).join('')
-                let item = result.find(item => item.key === key)
-                item && item.children.push(pathArray.slice(-2).join('/'))
+                let folderName = pathArray.slice(-2, -1).join('')
+                let folderItem = result.find(item => item.key === folderName)
+                folderItem && folderItem.children.push(pathArray.slice(-2).join('/'))
             }
         }
     }
@@ -42,16 +43,19 @@ let findSync = (startPath, titleMap) => {
 }
 
 module.exports = async options => {
-    let { destpath } = options
-    let vuepressConfigPath = destpath + '/.vuepress/config.js'
-    let vuepressConfig = await fs.readFile(vuepressConfigPath, 'utf-8')
+    let { destpath, blogUrl } = options
+    let sidebar = getConfigByDir(options)
 
     // override sidebar
+    let vuepressConfigPath = destpath + '/.vuepress/config.js'
+    let vuepressConfig = await fs.readFile(vuepressConfigPath, 'utf-8')
     let jsPrefix = 'module.exports = '
     let jsonStr = vuepressConfig.replace(jsPrefix, '')
     let jsonData = eval(`(${jsonStr})`)
-    jsonData.themeConfig.sidebar = getConfigByDir(options)
+    jsonData.themeConfig.sidebar = sidebar
     let overrideStr = jsPrefix + JSON.stringify(jsonData)
-
     await fs.outputFile(vuepressConfigPath, overrideStr)
+
+    // read markdown
+    blogUrl && readMarkdown(sidebar, { destpath, blogUrl })
 }

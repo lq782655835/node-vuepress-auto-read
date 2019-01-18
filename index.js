@@ -11,6 +11,7 @@ const args = yargs
 .default('config', './package.json')
 .describe('destpath', "vuepress dest docs path")
 .default('destpath', './docs')
+.describe('blogUrl', 'your blog base url')
 .help('help')
 .alias('h', 'help').argv
 
