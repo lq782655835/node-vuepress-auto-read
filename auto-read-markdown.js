@@ -1,7 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
 
-let readMarkdown = (mapArray, { destpath, blogUrl }) => {
+let readMarkdown = (mapArray, { destpath, blogUrl, markdown }) => {
     let resultMd = []
     let increse = 0
     mapArray.forEach(async (folderItem, fIndex) => {
@@ -22,7 +22,7 @@ let readMarkdown = (mapArray, { destpath, blogUrl }) => {
         if (mapArray.length === ++increse) {
             console.log(resultMd)
             let resultStr = resultMd.join('\n')
-            await fs.outputFile('./README.md', resultStr)
+            await fs.outputFile(markdown, resultStr)
         }
     })
 }

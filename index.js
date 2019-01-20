@@ -12,6 +12,8 @@ const args = yargs
 .describe('destpath', "vuepress dest docs path")
 .default('destpath', './docs')
 .describe('blogUrl', 'your blog base url')
+.describe('markdown', 'your blog readme path')
+.default('markdown', './README.md')
 .help('help')
 .alias('h', 'help').argv
 

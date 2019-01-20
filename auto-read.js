@@ -43,7 +43,7 @@ let findSync = (startPath, titleMap) => {
 }
 
 module.exports = async options => {
-    let { destpath, blogUrl } = options
+    let { destpath, blogUrl, markdown } = options
     let sidebar = getConfigByDir(options)
 
     // override sidebar
@@ -57,5 +57,5 @@ module.exports = async options => {
     await fs.outputFile(vuepressConfigPath, overrideStr)
 
     // read markdown
-    blogUrl && readMarkdown(sidebar, { destpath, blogUrl })
+    blogUrl && readMarkdown(sidebar, options)
 }
