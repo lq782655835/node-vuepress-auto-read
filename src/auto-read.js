@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const { join } = require('path')
+const writeVuepressConfig = require('./write-vuepress-config-sidebar')
 const writeMarkdown = require('./write-markdown')
 
 let getConfigByDir = ({ rootPath, folderTitleMap }) => {
@@ -52,14 +53,8 @@ module.exports = async options => {
 
     // override sidebar
     let vuepressConfigPath = rootPath + '/.vuepress/config.js'
-    let vuepressConfig = await fs.readFile(vuepressConfigPath, 'utf-8')
-    let jsPrefix = 'module.exports = '
-    let jsonStr = vuepressConfig.replace(jsPrefix, '')
-    let jsonData = eval(`(${jsonStr})`)
-    jsonData.themeConfig.sidebar = sidebar
-    let overrideStr = jsPrefix + JSON.stringify(jsonData)
-    await fs.outputFile(vuepressConfigPath, overrideStr)
+    writeVuepressConfig(vuepressConfigPath, sidebar)
 
-    // write markdown
+    // override readme markdown
     blogUrl && writeMarkdown(sidebar, options)
 }

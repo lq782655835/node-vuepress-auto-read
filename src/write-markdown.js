@@ -1,5 +1,4 @@
 const fs = require('fs-extra')
-const path = require('path')
 const test = require('./util')
 
 let writeFile = async ({ blogUrl, markdown }, fullSidebar) => {
@@ -15,7 +14,10 @@ let writeFile = async ({ blogUrl, markdown }, fullSidebar) => {
     await fs.outputFile(markdown, contentArr.join('\n'))
 }
 
-let writeMarkdown = async (mapArray, { rootPath, blogUrl, markdown }) => {
+let writeMarkdown = async (mapArray, options) => {
+    let { rootPath, blogUrl, markdown } = options
+
+    // get articles title for each folder item
     let folderChildrenWithTitle = mapArray.map(async (folderItem, fIndex) => {
         let promises = folderItem.children.map(path => fs.readFile(rootPath + '/' + path, 'utf-8'))
         let contents = await Promise.all(promises)
@@ -23,8 +25,10 @@ let writeMarkdown = async (mapArray, { rootPath, blogUrl, markdown }) => {
             resolve({ ...folderItem, childrenTitles: test.getMdTitles(contents) })
         })
     })
+
+    // all folders
     let fullSidebar = await Promise.all(folderChildrenWithTitle)
-    writeFile({ blogUrl, markdown }, fullSidebar)
+    writeFile(options, fullSidebar)
 }
 
 module.exports = writeMarkdown
