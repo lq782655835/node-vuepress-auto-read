@@ -25,6 +25,6 @@ Options:
   -c, --config    config file path                   [default: "./package.json"]
   -r, --rootPath  vuepress dest docs path                    [default: "./docs"]
   -m, --markdown  your blog readme path                 [default: "./README.md"]
-  -b, --blogUrl   your blog base url                                  [required]
+  -b, --blogUrl   your blog base url
   -h, --help      Show help                                            [boolean]
 ```
