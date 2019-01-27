@@ -3,14 +3,14 @@
 const chalk = require('chalk')
 const fs = require('fs-extra')
 const yargs = require('yargs')
-const auto = require('./auto-read')
+const auto = require('./src/auto-read')
 
 const args = yargs
-.usage('Usage: $0 --config=config --destpath=destpath')
+.usage('Usage: $0 --config=config --rootPath=rootPath')
 .describe('config', "config file path")
 .default('config', './package.json')
-.describe('destpath', "vuepress dest docs path")
-.default('destpath', './docs')
+.describe('rootPath', "vuepress dest docs path")
+.default('rootPath', './docs')
 .describe('blogUrl', 'your blog base url')
 .describe('markdown', 'your blog readme path')
 .default('markdown', './README.md')

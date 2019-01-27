@@ -1,11 +1,16 @@
 const fs = require('fs-extra')
 const { join } = require('path')
-const readMarkdown = require('./auto-read-markdown')
+const writeMarkdown = require('./write-markdown')
 
-let getConfigByDir = ({folderTitleMap, destpath}) => {
-    let getSideBar = findSync(destpath, folderTitleMap)
+let getConfigByDir = ({rootPath, folderTitleMap}) => {
+    let getSideBar = findSync(rootPath, folderTitleMap)
     // order array
-    return Object.keys(folderTitleMap).reduce((pre, cur) => [ ...pre, getSideBar.find(item => item.key === cur) ], [])
+    return Object.keys(folderTitleMap)
+            .reduce((pre, cur) => {
+                let curItem = getSideBar.find(item => item.key === cur)
+                if (!curItem) return pre
+                return [...pre, curItem]
+            }, [])
 }
 
 let findSync = (startPath, titleMap) => {
@@ -43,11 +48,11 @@ let findSync = (startPath, titleMap) => {
 }
 
 module.exports = async options => {
-    let { destpath, blogUrl, markdown } = options
+    let { rootPath, blogUrl, markdown } = options
     let sidebar = getConfigByDir(options)
 
     // override sidebar
-    let vuepressConfigPath = destpath + '/.vuepress/config.js'
+    let vuepressConfigPath = rootPath + '/.vuepress/config.js'
     let vuepressConfig = await fs.readFile(vuepressConfigPath, 'utf-8')
     let jsPrefix = 'module.exports = '
     let jsonStr = vuepressConfig.replace(jsPrefix, '')
@@ -56,6 +61,6 @@ module.exports = async options => {
     let overrideStr = jsPrefix + JSON.stringify(jsonData)
     await fs.outputFile(vuepressConfigPath, overrideStr)
 
-    // read markdown
-    blogUrl && readMarkdown(sidebar, options)
+    // write markdown
+    blogUrl && writeMarkdown(sidebar, options)
 }
