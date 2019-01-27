@@ -1,16 +1,11 @@
 const { expect } = require('chai')
-const auto = require('../auto-read')
+const getMdTitles = require('../src/util').getMdTitles
 
-describe('test/index.test.js', function() {
-    it('这是一个测试文件', function() {
-        let params = {
-            config: './package.json',
-            destpath: './docs'
-        }
-        auto(params)
-        expect(1).to.equal(1)
-        expect('123').to.be.a('string');
-        expect([1, 2, 3]).to.include(2)
-        expect('everything').to.be.ok
+describe('test/util.test.js', function() {
+    it('get markdown title', function() {
+        let testStr = '# this is a test title \n wrewr'
+        let title = getMdTitles([testStr])[0]
+
+        expect(title.trim()).to.equal('this is a test title')
     })
 })
