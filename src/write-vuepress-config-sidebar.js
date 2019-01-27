@@ -1,3 +1,5 @@
+const fs = require('fs-extra')
+
 module.exports = async (configPath, sidebar) => {
     let vuepressConfig = await fs.readFile(configPath, 'utf-8')
 

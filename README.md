@@ -16,16 +16,15 @@ npm install node-vuepress-auto-read --save-dev
 ```
 
 2. auto run for override sidebar of vuepress config.js
-``` bash
-vuepress-auto-read
-```
 
 ```
-Usage: index.js --config=config --destpath=destpath
+Usage: vuepress-auto-read [options]
 
 Options:
-  --version   Show version number                                      [boolean]
-  --config    config file path           [default: "./package.json"]
-  --destpath  vuepress dest folder       [default: "./docs"]
-  -h, --help  Show help                                                [boolean]
+  --version       Show version number                                  [boolean]
+  -c, --config    config file path                   [default: "./package.json"]
+  -r, --rootPath  vuepress dest docs path                    [default: "./docs"]
+  -m, --markdown  your blog readme path                 [default: "./README.md"]
+  -b, --blogUrl   your blog base url                                  [required]
+  -h, --help      Show help                                            [boolean]
 ```
