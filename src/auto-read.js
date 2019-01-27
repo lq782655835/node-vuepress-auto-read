@@ -2,15 +2,14 @@ const fs = require('fs-extra')
 const { join } = require('path')
 const writeMarkdown = require('./write-markdown')
 
-let getConfigByDir = ({rootPath, folderTitleMap}) => {
+let getConfigByDir = ({ rootPath, folderTitleMap }) => {
     let getSideBar = findSync(rootPath, folderTitleMap)
     // order array
-    return Object.keys(folderTitleMap)
-            .reduce((pre, cur) => {
-                let curItem = getSideBar.find(item => item.key === cur)
-                if (!curItem) return pre
-                return [...pre, curItem]
-            }, [])
+    return Object.keys(folderTitleMap).reduce((pre, cur) => {
+        let curItem = getSideBar.find(item => item.key === cur)
+        if (!curItem) return pre
+        return [...pre, curItem]
+    }, [])
 }
 
 let findSync = (startPath, titleMap) => {
